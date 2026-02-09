@@ -1,0 +1,409 @@
+# Cleaned config.yaml (tabs replaced with spaces and malformed lines fixed)
+
+annotation_config:
+  processing: "config/annotation_processing.tsv"
+  interactions: "config/annotation_interactions.tsv"
+
+chromosomes:
+  train: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','X']
+  score: ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','X']
+  #train: ['29']
+  #score: ['29']
+species_name: "bos_taurus"
+
+alignments:
+  43_mammals.epo:
+    path: "/lustre/nobackup/WUR/ABGC/gao086/cadd/cadd-pipeline-v-2-main/resources/alignments/43_mammals.epo/maf/"
+    type: "maf.gz"
+    exclude_patterns: ["epo.MT"]
+    name_species_interest: "bos_taurus"
+    chrom_prefix: "None"
+    filter_order: "bos_taurus.,bos_indicus_hybrid.,Ancestor_Cow_sheep,ovis_aries_rambouillet.,capra_hircus.,bos_grunniens.,cervus_hanglu_yarkandensis.,sus_scrofa."
+    #filter_order: "bos_taurus.,bos_indicus_hybrid.,Ancestor_Cow_sheep,ovis_aries_rambouillet.,capra_hircus.,bos_grunniens.,cervus_hanglu_yarkandensis.,sus_scrofa.,catagonus_wagneri.,camelus_dromedarius.,monodon_monoceros.,delphinapterus_leucas.,phocoena_sinus.,physeter_catodon.,balaenoptera_musculus."
+    clean_maf: "True"
+    pre_sorted: "False"
+
+  91_mammals.epo_extended:
+    path: "/lustre/nobackup/WUR/ABGC/gao086/cadd/cadd-pipeline-v-2-main/resources/alignments/91_mammals.epo_extended/"
+    type: "maf.gz"
+    exclude_patterns: ["epo.MT"]
+    name_species_interest: "bos_taurus"
+    chrom_prefix: "None"
+    filter_order: "bos_taurus.,bos_indicus_hybrid.,bos_grunniens.,bos_mutus.,bison_bison_bison.,ovis_aries_rambouillet.,capra_hircus.,moschus_moschiferus.,cervus_hanglu_yarkandensis.,sus_scrofa.,catagonus_wagneri.,camelus_dromedarius.,vicugna_pacos.,equus_caballus.,equus_asinus.,monodon_monoceros.,delphinapterus_leucas.,phocoena_sinus.,tursiops_truncatus.,physeter_catodon.,balaenoptera_musculus.,ursus_maritimus.,ursus_americanus.,ailuropoda_melanoleuca.,mustela_putorius_furo.,neovison_vison.,canis_lupus_dingo.,canis_lupus_familiaris.,vulpes_vulpes.,panthera_pardus.,panthera_leo.,panthera_tigris_altaica.,felis_catus.,rhinolophus_ferrumequinum.,pteropus_vampyrus.,myotis_lucifugus.,dasypus_novemcinctus.,choloepus_hoffmanni.,echinops_telfairi.,procavia_capensis.,loxodonta_africana.,cricetulus_griseus_chok1gshd.,mesocricetus_auratus.,microtus_ochrogaster.,peromyscus_maniculatus_bairdii.,mus_spretus.,mus_spicilegus.,mus_musculus.,mus_caroli.,mus_pahari.,rattus_norvegicus.,nannospalax_galili.,jaculus_jaculus.,dipodomys_ordii.,chinchilla_lanigera.,octodon_degus.,cavia_porcellus.,heterocephalus_glaber_female.,urocitellus_parryii.,ictidomys_tridecemlineatus.,marmota_marmota_marmota.,sciurus_vulgaris.,oryctolagus_cuniculus.,ochotona_princeps.,pan_troglodytes.,pan_paniscus.,homo_sapiens.,gorilla_gorilla.,pongo_abelii.,nomascus_leucogenys.,cercocebus_atys.,mandrillus_leucophaeus.,papio_anubis.,macaca_mulatta.,macaca_fascicularis.,macaca_nemestrina.,chlorocebus_sabaeus.,rhinopithecus_roxellana.,rhinopithecus_bieti.,cebus_imitator.,saimiri_boliviensis_boliviensis.,aotus_nancymaae.,callithrix_jacchus.,carlito_syrichta.,prolemur_simus.,propithecus_coquereli.,microcebus_murinus.,otolemur_garnettii.,tupaia_belangeri.,erinaceus_europaeus.,sorex_araneus."
+    clean_maf: "True"
+    pre_sorted: "False"
+
+  multiz35way:
+    path: "/lustre/nobackup/WUR/ABGC/gao086/cadd/cadd-pipeline-v-2-main/resources/alignments/multiz35way/"
+    type: "maf.gz"
+    exclude_patterns: ["random"]
+    name_species_interest: "bosTau9"
+    chrom_prefix: "chr"
+    filter_order: "bosTau9.,oviAri4.,turTru2.,susScr3.,manPen1.,equCab3.,neoSch1.,canFam4.,sorAra2.,eriEur2.,galVar1.,tupBel1.,panTro6.,hg38.,panPan3.,gorGor6.,rheMac10.,calJac4.,tarSyr2.,otoGar3.,ochPri3.,oryCun2.,rn6.,mm39.,GCF_003668045v3.,casCan1.,speTri2.,cavPor3.,loxAfr3.,echTel2.,monDom5.,galGal6.,xenTro9.,danRer11.,petMar3."   ##35
+    #filter_order: "bosTau9.,oviAri4.,susScr3.,equCab3.,canFam4.,turTru2.,manPen1.,neoSch1.,eriEur2.,sorAra2."#10
+    #filter_order: "bosTau9.,oviAri4.,susScr3.,equCab3.,canFam4.,turTru2.,manPen1.,neoSch1.,eriEur2.,sorAra2.,ochPri3.,oryCun2.,cavPor3.,speTri2.,casCan1.,GCF_003668045v3.,rn6.,mm39.,galVar1.,tupBel1.,otoGar3.,tarSyr2.,calJac4.,rheMac10.,gorGor6.,panPan3.,panTro6.,hg38."
+    clean_maf: "False"
+    pre_sorted: "False"
+
+derive_ancestor:
+  ancestral_alignment: "43_mammals.epo"
+  name_ancestor: "Ancestor_Cow_sheep"
+  sp1_tree_ab: "Btau"
+  sp2_tree_ab: "Oram"
+  
+generate_variants:
+  reference_genome_wildcard: "/lustre/nobackup/WUR/ABGC/gao086/bos-reference1.3/chr_fasta/chr{chr}.fa"
+  population_vcf: "/lustre/nobackup/WUR/ABGC/gao086/cadd/run9/merge-filter/chr{chr}.recode.vcf.gz"
+  derive:
+    min_ref_frequency: 0.95
+  simulate:
+    overestimation_factor: 4
+
+phast:
+  epo91:
+    alignment: "91_mammals.epo_extended"
+    train_precision: "HIGH"
+    tree: |
+      (((((loxodonta_africana,procavia_capensis),echinops_telfairi),(dasypus_novemcinctus,choloepus_hoffmanni)),((((((((((((((((((ursus_maritimus,ursus_americanus),ailuropoda_melanoleuca),(mustela_putorius_furo,neovison_vison)),((canis_lupus_dingo,canis_lupus_familiaris),vulpes_vulpes)),(((panthera_pardus,panthera_leo),panthera_tigris_altaica),felis_catus)),(equus_caballus,equus_asinus)),((((((((monodon_monoceros,delphinapterus_leucas),phocoena_sinus),tursiops_truncatus),physeter_catodon),balaenoptera_musculus),(((ovis_aries_rambouillet,capra_hircus),(((bos_mutus,bos_grunniens),bison_bison_bison),(bos_taurus,bos_indicus_hybrid))),moschus_moschiferus),cervus_hanglu_yarkandensis)),(sus_scrofa,catagonus_wagneri)),(camelus_dromedarius,vicugna_pacos)),((rhinolophus_ferrumequinum,pteropus_vampyrus),myotis_lucifugus)),erinaceus_europaeus),(((((((((((((((((cricetulus_griseus_chok1gshd,mesocricetus_auratus),microtus_ochrogaster),peromyscus_maniculatus_bairdii),(((((mus_spretus,mus_spicilegus),mus_musculus),mus_caroli),mus_pahari),rattus_norvegicus)),nannospalax_galili),jaculus_jaculus),dipodomys_ordii),(((chinchilla_lanigera,octodon_degus),cavia_porcellus),heterocephalus_glaber_female)),((urocitellus_parryii,ictidomys_tridecemlineatus),marmota_marmota_marmota),sciurus_vulgaris)),(oryctolagus_cuniculus,ochotona_princeps)),(((((((((pan_troglodytes,pan_paniscus),homo_sapiens),gorilla_gorilla),pongo_abelii),nomascus_leucogenys),(((((cercocebus_atys,mandrillus_leucophaeus),papio_anubis),((macaca_mulatta,macaca_fascicularis),macaca_nemestrina)),chlorocebus_sabaeus),(rhinopithecus_roxellana,rhinopithecus_bieti))),(((cebus_imitator,saimiri_boliviensis_boliviensis),aotus_nancymaae),callithrix_jacchus)),carlito_syrichta),(((prolemur_simus,propithecus_coquereli),microcebus_murinus),otolemur_garnettii))),tupaia_belangeri))),sorex_araneus)
+    phylo_p_params: "--method=LRT --mode=CONACC"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+  ucsc35:
+    alignment: "multiz35way"
+    train_precision: "MED"
+    tree: "((((((((((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3),(neoSch1,canFam4))),(sorAra2,eriEur2)),((galVar1,tupBel1),((((((((panTro6,hg38),panPan3),gorGor6),rheMac10),calJac4),tarSyr2),otoGar3),((ochPri3,oryCun2),((((rn6,mm39),casCan1),speTri2),cavPor3))))),(loxAfr3,echTel2)),monDom5),galGal6),xenTro9),danRer11),petMar3)"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    phylo_p_params: "--method=LRT --mode=CONACC"
+  ucscru:
+    alignment: "multiz35way"
+    train_precision: "MED"
+    tree: "(bosTau9,oviAri4)"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    phylo_p_params: "--method=LRT --mode=CONACC"
+  ucsccetartiodactyla:
+    alignment: "multiz35way"
+    train_precision: "MED"
+    tree: "(((bosTau9,oviAri4),turTru2),susScr3)"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    phylo_p_params: "--method=LRT --mode=CONACC"
+  ucscmam6:
+    alignment: "multiz35way"
+    train_precision: "MED"
+    tree: "((((bosTau9,susScr3),canFam4),(hg38,mm39)),monDom5)"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    phylo_p_params: "--method=LRT --mode=CONACC"
+    #tree: "((((((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3),(neoSch1,canFam4))),(sorAra2,eriEur2)),((galVar1,tupBel1),((((((((panTro6,hg38),panPan3),gorGor6),rheMac10),calJac4),tarSyr2),otoGar3),((ochPri3,oryCun2),(((((rn6,mm39),GCF_003668045v3),casCan1),speTri2),cavPor3))))),(loxAfr3,echTel2)),monDom5)"
+  eporumex:
+    alignment: "43_mammals.epo"
+    train_precision: "HIGH"
+    tree: "(((((ovis_aries_rambouillet,capra_hircus),(bos_taurus,bos_indicus_hybrid)),bos_grunniens),cervus_hanglu_yarkandensis)"
+    phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    phylo_p_params: "--method=LRT --mode=CONACC"
+    
+ # ((((((((((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3),(neoSch1,canFam4))),(sorAra2,eriEur2)),((galVar1,tupBel1),((((((((panTro6,hg38),panPan3),gorGor6),rheMac10),calJac4),tarSyr2),otoGar3),((ochPri3,oryCun2),(((((rn6,mm39),GCF_003668045v3),casCan1),speTri2),cavPor3))))),(loxAfr3,echTel2)),monDom5),galGal6),xenTro9),danRer11),petMar3)
+  #glire:# 14
+   # alignment: "43_mammals.epo"
+    #train_precision: "HIGH"
+    #tree: "((((((monodon_monoceros,delphinapterus_leucas),phocoena_sinus),physeter_catodon),balaenoptera_musculus),((((ovis_aries_rambouillet,capra_hircus),(bos_taurus,bos_indicus_hybrid)),bos_grunniens),cervus_hanglu_yarkandensis)),((sus_scrofa,catagonus_wagneri),camelus_dromedarius))"
+    #phast_cons_params: "--target-coverage 0.3 --expected-length 45 --rho 0.3"
+    #phylo_p_params: "--method=LRT --mode=CONACC"#tree10
+#(((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3))),(neoSch1,canFam4),(sorAra2,eriEur2))
+#??tree 28 species
+#((((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3),(neoSch1,canFam4))),(sorAra2,eriEur2)),((galVar1,tupBel1),((((((((panTro6,hg38),panPan3),gorGor6),rheMac10),calJac4),tarSyr2),otoGar3),((ochPri3,oryCun2),((((rn6,mm39),casCan1),speTri2),cavPor3)))))"
+#((galVar1,tupBel1),((((((((panTro6,hg38),panPan3),gorGor6),rheMac10),calJac4),tarSyr2),otoGar3),((ochPri3,oryCun2),((((rn6,mm39),casCan1),speTri2),cavPor3))))
+# tree: "((((bosTau9,oviAri4),turTru2),susScr3),((manPen1,equCab3),(neoSch1,canFam4)))"
+ensembl-api:
+  directory: "resources/ensembl-api"
+  should_install: "True"
+
+vep:
+  cache:
+    directory: "resources/vep"
+    should_install: True
+    install_params: "--CACHE_VERSION 110 -s bos_taurus -y ARS-UCD1.2"
+  exons: "resources/annotations/gtf/sorted.Bos_taurus.ARS-UCD1.3_genomic.exons.gtf.gz"
+
+## Basic, (reference) sequence derived annotation ##
+# Provides basic columns (chrom, ref_nt, alt_nt, is_transversion)
+# And sequence derived annotations: GC content, CpG.
+# If a shape_file is provided, variants will also be annotated with DNAShape.
+# The provided file contains the scores for all possible DNA pentamers.
+basic_annotation:
+  include_masked: True
+  shape_file: "resources/annotations/pentamer_shape_scores.tsv"
+
+transcript_annotation:
+  enabled: True
+  transcript_file: "resources/annotations/gtf/sorted.Bos_taurus.ARS-UCD1.3_genomic.introns.gtf.gz"
+
+vcf_annotation:
+  enabled: True
+  file: "/lustre/nobackup/WUR/ABGC/gao086/cadd/cadd-pipeline-v-2-main/workflow/results/simulated_variants/trimmed_snps/all_chr.clean.vcf.gz"
+  labels:
+    - "vcfANN"
+
+validation_sets:
+  - omiaa
+  #- del
+  #- fairfield
+ # - new
+  
+
+bed_annotation:
+  mamPhCons:
+    file: "resources/annotations/phast/ucscmam6_phCon.wig"
+    should_sort: True 
+    strip_chr: False 
+    annotations:
+      mamPhCons: 4
+  mamPhyloP:
+    file: "resources/annotations/phast/ucscmam6_phloP.wig"
+    should_sort: True 
+    strip_chr: False 
+    annotations:
+      mamPhyloP: 4
+  cetarPhCons:
+    file: "resources/annotations/phast/ucsccet_phCon.wig"
+    should_sort: True 
+    strip_chr: False 
+    annotations:
+      cetarPhCons: 4
+  cetarPhyloP:
+    file: "resources/annotations/phast/ucsccet_phloP.wig"
+    should_sort: True 
+    strip_chr: False
+    annotations:
+      cetarPhyloP: 4
+  rumPhCons:
+    file: "resources/annotations/phast/eporum_phCon.wig"
+    should_sort: False
+    annotations:
+      rumPhCons: 4
+  rumPhyloP:
+    file: "resources/annotations/phast/eporum_phloP.wig"
+    should_sort: False
+    annotations:
+      rumPhyloP: 4
+  gerpScore:
+    file: "resources/annotations/gerp/all_chr.sorted.bed.gz"
+    should_sort: True 
+    strip_chr: False 
+    annotations:
+      gerpS: 6
+      gerpN: 5
+  gerpElem:
+    file: "resources/annotations/gerp/elem_all.bed.gz"
+    should_sort: True 
+    strip_chr: False 
+    annotations:
+      gerpRS: 4
+      gerpRSpval: 5
+  TFMotif:
+    file: "resources/TF_2025_9m_1d/final/fimo_tfbs_all.bed.gz"
+    should_sort: True
+    strip_chr: False
+    annotations:
+      TFmotif: 4  
+  chromHMM:
+    file: "resources/annotations/ChromHMM/chromHMM.bed.gz"
+    should_sort: True
+    strip_chr: False
+    annotations:
+      Adipose_ATAC: 4
+      CTCF_Adipose_CHIP: 5
+      CTCF_Cerebellum_CHIP: 6
+      CTCF_Cortex_CHIP: 7
+      CTCF_Hypothalamus_CHIP: 8
+      CTCF_Liver_CHIP: 9
+      CTCF_Lung_CHIP: 10
+      CTCF_Muscle_CHIP: 11
+      CTCF_Spleen_CHIP: 12
+      Cerebellum_ATAC: 13
+      Cortex_ATAC: 14
+      GSM9116552_NEUN_ATAC: 18
+      H3K27ac_Adipose_CHIP: 19
+      H3K27ac_Cerebellum_CHIP: 20
+      H3K27ac_Cortex_CHIP: 21
+      H3K27ac_Hypothalamus_CHIP: 22
+      H3K27ac_Liver_CHIP: 23
+      H3K27ac_Lung_CHIP: 24
+      H3K27ac_Muscle_CHIP: 25
+      H3K27ac_Spleen_CHIP: 26
+      H3K27me3_Adipose_CHIP: 27
+      H3K27me3_Cerebellum_CHIP: 28
+      H3K27me3_Cortex_CHIP: 29
+      H3K27me3_Hypothalamus_CHIP: 30
+      H3K27me3_Liver_CHIP: 31
+      H3K27me3_Lung_CHIP: 32
+      H3K27me3_Muscle_CHIP: 33
+      H3K27me3_Spleen_CHIP: 34
+      H3K4me1_Adipose_CHIP: 35
+      H3K4me1_Cerebellum_CHIP: 36
+      H3K4me1_Cortex_CHIP: 37
+      H3K4me1_Hypothalamus_CHIP: 38
+      H3K4me1_Liver_CHIP: 39
+      H3K4me1_Lung_CHIP: 40
+      H3K4me1_Muscle_CHIP: 41
+      H3K4me1_Spleen_CHIP: 42
+      H3K4me3_Adipose_CHIP: 43
+      H3K4me3_Cerebellum_CHIP: 44
+      H3K4me3_Cortex_CHIP: 45
+      H3K4me3_Hypothalamus_CHIP: 46
+      H3K4me3_Liver_CHIP: 47
+      H3K4me3_Lung_CHIP: 48
+      H3K4me3_Muscle_CHIP: 49
+      H3K4me3_Spleen_CHIP: 50
+      Hypothalamus_ATAC: 51
+      Liver_ATAC: 52
+      Lung_ATAC: 53
+      Muscle_ATAC: 54
+      Spleen_ATAC: 55
+      adult_rumen_ATAC: 56
+
+model:
+  n_folds: 5
+  test_params:
+    c:
+      - 10.0
+    max_iter:
+      - 100
+  final_params:
+    c: 10.0
+    max_iter: 100
+  column_subsets:
+    All: "SPECIAL KEY, uses all columns"
+    Grantham: "config/Grantham.tsv"
+    gerpS: "config/gerps.tsv"
+    phlop: "config/phlop.tsv"
+    sift: "config/sift.tsv"
+    cons: "config/con.tsv"
+    #noepo: "config/noepo.csv"   # ???????
+
+generate_roc_auc_for_cols:
+  - Adipose_ATAC
+  - CDSpos
+  - CTCF_Adipose_CHIP
+  - CTCF_Cerebellum_CHIP
+  - CTCF_Cortex_CHIP
+  - CTCF_Hypothalamus_CHIP
+  - CTCF_Liver_CHIP
+  - CTCF_Lung_CHIP
+  - CTCF_Muscle_CHIP
+  - CTCF_Spleen_CHIP
+  - Cerebellum_ATAC
+  - Consequence_I
+  - Consequence_IG
+  - Consequence_NC
+  - Consequence_NS
+  - Consequence_O
+  - Consequence_R
+  - Consequence_S
+  - Consequence_SG
+  - Consequence_SL
+  - Consequence_SN
+  - Consequence_U3
+  - Consequence_U5
+  - Consequence_UP
+  - Cortex_ATAC
+  - CpG
+  - Domain_UD
+  - Domain_lcompl
+  - Domain_ncoils
+  - Domain_sigp
+  - Domain_tmhmm
+  - GC
+  - GSM9116552_NEUN_ATAC
+  - Grantham
+  - H3K27ac_Adipose_CHIP
+  - H3K27ac_Cerebellum_CHIP
+  - H3K27ac_Cortex_CHIP
+  - H3K27ac_Hypothalamus_CHIP
+  - H3K27ac_Liver_CHIP
+  - H3K27ac_Lung_CHIP
+  - H3K27ac_Muscle_CHIP
+  - H3K27ac_Spleen_CHIP
+  - H3K27me3_Adipose_CHIP
+  - H3K27me3_Cerebellum_CHIP
+  - H3K27me3_Cortex_CHIP
+  - H3K27me3_Hypothalamus_CHIP
+  - H3K27me3_Liver_CHIP
+  - H3K27me3_Lung_CHIP
+  - H3K27me3_Muscle_CHIP
+  - H3K27me3_Spleen_CHIP
+  - H3K4me1_Adipose_CHIP
+  - H3K4me1_Cerebellum_CHIP
+  - H3K4me1_Cortex_CHIP
+  - H3K4me1_Hypothalamus_CHIP
+  - H3K4me1_Liver_CHIP
+  - H3K4me1_Lung_CHIP
+  - H3K4me1_Muscle_CHIP
+  - H3K4me1_Spleen_CHIP
+  - H3K4me3_Adipose_CHIP
+  - H3K4me3_Cerebellum_CHIP
+  - H3K4me3_Cortex_CHIP
+  - H3K4me3_Hypothalamus_CHIP
+  - H3K4me3_Liver_CHIP
+  - H3K4me3_Lung_CHIP
+  - H3K4me3_Muscle_CHIP
+  - H3K4me3_Spleen_CHIP
+  - Hypothalamus_ATAC
+  - IND_CDSpos
+  - IND_Grantham
+  - IND_SIFTval
+  - IND_cDNApos
+  - IND_protPos
+  - Liver_ATAC
+  - Lung_ATAC
+  - Muscle_ATAC
+  - SIFTcat_deleterious
+  - SIFTcat_unknown
+  - SIFTval
+  - Spleen_ATAC
+  - TFmotif
+  - cDNApos
+  - cetarPhCons
+  - cetarPhyloP
+  - dnaHelT
+  - dnaMGW
+  - dnaProT
+  - dnaRoll
+  - gerpN
+  - gerpRS
+  - gerpRSpval
+  - gerpS
+  - isMasked
+  - isTv
+  - mamPhCons
+  - mamPhyloP
+  - minDistTSE
+  - minDistTSS
+  - protPos
+  - relCDSpos
+  - relcDNApos
+  - relprotPos
+  - rumPhCons
+  - rumPhyloP
+   
+validation:
+  new:
+    y0: "resources/validation_sets/new_control.vcf"   # neutral
+    y1: "resources/validation_sets/new.vcf"           # deleterious
+  omiaa:
+    y0: "resources/validation_sets/omiaa_control.vcf" # neutral
+    y1: "resources/validation_sets/omiaa.vcf" # deleterious
+  del:
+   y0: "resources/validation_sets/del_control.vcf" # neutral
+   y1: "resources/validation_sets/del.vcf" # deleterious
+  
+  #fairfield:
+    #y0: "resources/validation_sets/Fairfield_control.vcf.gz"
+    #y1: "resources/validation_sets/Fairfield.vcf.gz"
+ #clinvar-esp:
+   # y0: "resources/validation_sets/clinvar-esp_control.vcf"
+    #y1: "resources/validation_sets/clinvar-esp_removed_chrY.vcf"
+
+parallelization:
+  phast_blocks_per_split: 2000
+  whole_genome_positions_per_file: 400000
+
+dataset_memory_mb: 60000
+
