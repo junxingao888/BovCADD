@@ -1,0 +1,58 @@
+from snakemake.utils import min_version
+
+##### set minimum snakemake version #####
+min_version("7.21.0")
+
+##### Load config #####
+configfile: "config/config.yml"
+
+##### setup report #####
+report: "report/workflow.rst"
+
+##### load modules  #####
+include: "rules/common.smk"
+include: "rules/alignment_processing.smk"
+include: "rules/derive_variants.smk"
+include: "rules/simulate_variants.smk"
+include: "rules/generate_annotations.smk"
+include: "rules/annotate_variants.smk"
+include: "rules/train_test_model.smk"
+include: "rules/cadd_score.smk"
+
+# NAMES = ["eporumex","ucsccetartiodactyla","ucscmam","ucsc35"]
+NAMES = ["eporumex"]
+##### target rules #####
+# Either specify on the command line which file you want or one of the alternate rules below
+# Or enable/fill in the file you want in the ALL rule
+# The Snakemake wiki offers a detailed guide on the use of target rules       
+rule all:
+    input:
+        expand("results/whole_genome_scores/RAW_scores_chr{chr}.csv", chr=config["chromosomes"]["score"]),
+        "results/whole_genome_scores/full_RAW_scores.csv",
+        expand("results/cadd_scores/chr{chr}.tsv.gz", chr=config["chromosomes"]["score"]),
+        #xpand("results/whole_genome_scores/RAW_scores_chr{chr}.csv", chr=list(range(2,5))),
+        #expand("results/whole_genome_scores/RAW_scores_chr{chr}.csv", chr=["28"])     
+        #expand("results/whole_genome_scores/phred/chr{chr}.tsv", chr=["29"]),
+        #expand("results/whole_genome_scores/counts/chr{chr}.txt", chr=["29"]),
+        #expand("results/cadd_scores/chr{chr}.tsv.gz", chr=["29"])
+
+          # expand("results/derived_variants/singletons/chr{chr}.vcf", chr=config["chromosomes"]["train"]),
+              #for conserved score
+        #expand("results/phast/{type}/{name}/all_chr.wig", type=["phastCons", "phyloP"], name=NAMES),        
+        # expand("results/consequence_bins/chr{chr}_{part}.csv", chr=["29"], part=range(1, 129))
+        # for separate chr 29
+        # expand("results/whole_genome_scores/RAW_scores_chr{chr}.csv", chr=CHROMS),
+        # expand("results/whole_genome_scores/phred/chr{chr}.tsv", chr=CHROMS),
+        # expand("results/whole_genome_scores/counts/chr{chr}.txt", chr=CHROMS),
+        # expand("results/cadd_scores/chr{chr}.tsv.gz", chr=CHROMS)
+        # for all chr cadd
+        # expand("results/whole_genome_scores/RAW_scores_chr{chr}.csv", chr=config["chromosomes"]["score"]),
+        # "results/whole_genome_scores/full_RAW_scores.csv",
+        # expand("results/whole_genome_scores/phred/chr{chr}.tsv", chr=config["chromosomes"]["score"]),
+        # expand("results/whole_genome_scores/counts/chr{chr}.txt", chr=config["chromosomes"]["score"]),
+        # expand("results/cadd_scores/chr{chr}.tsv.gz", chr=config["chromosomes"]["score"]),
+        # "results/whole_genome_scores/RAW_scores.csv",
+        # expand("results/cadd_scores/chr{chr}.tsv.gz", chr=config["chromosomes"]["score"]),
+        # expand("chr{chr}_sorted_phred.tsv.gz", chr=config["chromosomes"]["score"]),
+        # expand("results/cadd_scores/chr29.tsv.gz"),
+              
