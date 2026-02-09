@@ -1,7 +1,7 @@
 ## BovCADD
 # BovCADD: genome-wide deleteriousness scores integrating evolutionary and nucleotide-level scores in global cattle populations
 
-Author: Junxin Gao*, Martijn F.L. Derks, Job G.C. van Schipstal, Ying Liu1, Etske Bijl, Catarina Ginja, Juha Kantanen,  Nasser Ghanem, Donald Kugonza, Mahlako Makgahlela, Martien A.M. Groenen, Henk Bovenhuis, Richard P.M.A. Crooijmans*
+Author: Junxin Gao*, Martijn F.L. Derks, Job G.C. van Schipstal, Ying Liu, Etske Bijl, Catarina Ginja, Juha Kantanen,  Nasser Ghanem, Donald Kugonza, Mahlako Makgahlela, Martien A.M. Groenen, Henk Bovenhuis, Richard P.M.A. Crooijmans*
 
 # Abstract 
 
