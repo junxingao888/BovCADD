@@ -1,0 +1,22 @@
+# Configuration for the processing of annotations by data_preparation.py
+# This file determines what interactions will be created in the dataset
+
+# Explanation by column:
+# Name: Explanation, does not end up in the dataset
+# A_cols: first list of cols to merge, sperated by only a ,
+# B_cols: second list, will be matched A*B, all potential combinations
+
+# Do not edit header:
+Name	A_cols	B_cols
+
+RefA	Ref_A	Alt_C,Alt_G,Alt_T
+RefC	Ref_C	Alt_A,Alt_G,Alt_T
+RefG	Ref_G	Alt_A,Alt_C,Alt_T
+RefT	Ref_T	Alt_A,Alt_C,Alt_G
+
+Amino_Acids	oAA_*,oAA_A,oAA_C,oAA_D,oAA_E,oAA_F,oAA_G,oAA_H,oAA_I,oAA_K,oAA_L,oAA_M,oAA_N,oAA_P,oAA_Q,oAA_R,oAA_S,oAA_T,oAA_V,oAA_W,oAA_Y	nAA_*,nAA_A,nAA_C,nAA_D,nAA_E,nAA_F,nAA_G,nAA_H,nAA_I,nAA_K,nAA_L,nAA_M,nAA_N,nAA_P,nAA_Q,nAA_R,nAA_S,nAA_T,nAA_V,nAA_W,nAA_Y
+
+cons_by_consequence	mamPhyloP,mamPhCons,cetarPhyloP,cetarPhCons,gerpS,gerpN	Consequence_U3,Consequence_U5,Consequence_CS,Consequence_DN,Consequence_I,Consequence_IG,Consequence_NC,Consequence_NS,Consequence_R,Consequence_S,Consequence_SG,Consequence_SL,Consequence_SN,Consequence_UP
+pos_by_vep_consequence	cDNApos,CDSpos,relcDNApos,relCDSpos,relprotPos,protPos	Consequence_U3,Consequence_U5,Consequence_CS,Consequence_DN,Consequence_I,Consequence_IG,Consequence_NC,Consequence_NS,Consequence_R,Consequence_S,Consequence_SG,Consequence_SL,Consequence_SN,Consequence_UP
+by_vep_consequence	dnaHelT,dnaMGW,dnaProT,dnaRoll,minDistTSS,minDistTSE	Consequence_U3,Consequence_U5,Consequence_CS,Consequence_DN,Consequence_I,Consequence_IG,Consequence_NC,Consequence_NS,Consequence_R,Consequence_S,Consequence_SG,Consequence_SL,Consequence_SN,Consequence_UP
+chromatin_by_consequence	Adipose_ATAC,CTCF_Adipose_CHIP,CTCF_Cerebellum_CHIP,CTCF_Cortex_CHIP,CTCF_Hypothalamus_CHIP,CTCF_Liver_CHIP,CTCF_Lung_CHIP,CTCF_Muscle_CHIP,CTCF_Spleen_CHIP,Cerebellum_ATAC,Cortex_ATAC,GSM9116552_NEUN_ATAC,H3K27ac_Adipose_CHIP,H3K27ac_Cerebellum_CHIP,H3K27ac_Cortex_CHIP,H3K27ac_Hypothalamus_CHIP,H3K27ac_Liver_CHIP,H3K27ac_Lung_CHIP,H3K27ac_Muscle_CHIP,H3K27ac_Spleen_CHIP,H3K27me3_Adipose_CHIP,H3K27me3_Cerebellum_CHIP,H3K27me3_Cortex_CHIP,H3K27me3_Hypothalamus_CHIP,H3K27me3_Liver_CHIP,H3K27me3_Lung_CHIP,H3K27me3_Muscle_CHIP,H3K27me3_Spleen_CHIP,H3K4me1_Adipose_CHIP,H3K4me1_Cerebellum_CHIP,H3K4me1_Cortex_CHIP,H3K4me1_Hypothalamus_CHIP,H3K4me1_Liver_CHIP,H3K4me1_Lung_CHIP,H3K4me1_Muscle_CHIP,H3K4me1_Spleen_CHIP,H3K4me3_Adipose_CHIP,H3K4me3_Cerebellum_CHIP,H3K4me3_Cortex_CHIP,H3K4me3_Hypothalamus_CHIP,H3K4me3_Liver_CHIP,H3K4me3_Lung_CHIP,H3K4me3_Muscle_CHIP,H3K4me3_Spleen_CHIP,Hypothalamus_ATAC,Liver_ATAC,Lung_ATAC,Muscle_ATAC,Spleen_ATAC,adult_rumen_ATAC,TFmotif	Consequence_U3,Consequence_U5,Consequence_CS,Consequence_DN,Consequence_I,Consequence_IG,Consequence_NC,Consequence_NS,Consequence_R,Consequence_S,Consequence_SG,Consequence_SL,Consequence_SN,Consequence_UP
