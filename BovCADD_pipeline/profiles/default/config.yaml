@@ -1,0 +1,31 @@
+# Based on example in https://github.com/Snakemake-Profiles/slurm/blob/master/%7B%7Bcookiecutter.profile_name%7D%7D/config.yaml
+
+# Default command line arguments:
+cores: 32
+use-conda: True
+use-singularity: False
+
+# Default custom constraints (not mem, disk or threads)
+resources:
+  - ensembl_api=5 # Limit to 5 connections to the ensembl database
+  - mem_mb=200000 # Limit memory usage to 400GB by default
+
+# default resources (e.g. memory, disk or api) of a rule
+default-resources:
+  mem_mb: 20000 # Make rules reserve 500MB of memory by default
+  disk_mb: 20000
+
+set-resources:
+  get_gerp:
+    ensembl_api: 1
+    mem_mb: 20000
+  prepare_data:
+    mem_mb: 200000
+  prepare_whole_genome:
+    mem_mb: 200000
+  train_model:
+    mem_mb: 200000
+  sort_maf:
+    mem_mb: 200000
+  column_auc_by_region:
+    mem_mb: 200000

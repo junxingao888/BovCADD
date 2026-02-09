@@ -1,0 +1,15 @@
+name: vcftools
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=2_gnu
+  - libgcc-ng=13.2.0=h807b86a_1
+  - libgomp=13.2.0=h807b86a_1
+  - libnsl=2.0.0=h7f98852_0
+  - libstdcxx-ng=13.2.0=h7e041cc_1
+  - libzlib=1.2.13=hd590300_5
+  - perl=5.32.1=4_hd590300_perl5
+  - vcftools=0.1.16=pl5321hdcf5f25_9
+  - zlib=1.2.13=hd590300_5
