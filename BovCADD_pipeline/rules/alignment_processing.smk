@@ -1,0 +1,312 @@
+"""
+ First part of the workflow, process the alignment (from Ensembl Compara or equivalent) into a useable format
+ This module requires that the alignment that is to be processed is downloaded and placed in the resources folder.
+
+ :Author: Job van Schipstal
+ :Date: 8-9-2023
+
+ Based upon the work of Seyan Hu.
+"""
+
+import sys
+
+ALIGNMENT_P = "../scripts/alignment_processing/"
+
+"""
+ Converts emf files to maf format.
+ The script was obtained from Ensembl and modified to work on gzipped files directly.
+"""
+rule emf2maf:
+    input:
+         emf="{file}.emf.gz",
+         script=workflow.source_path(ALIGNMENT_P + 'emf2maf.pl')
+    conda:
+        "../envs/ensembl.yml" # Reuse perl environment for this rule
+    output:
+          "{file}.maf.gz"
+    shell:
+         "perl {input.script} {input.emf} {output}"
+
+"""
+ Parse MAF file and removes ambiguous nucleotides from the alignment.
+ All 11 ambiguous symbols are converted to N.
+ Only needs to be used if directly processing the .maf files in maftools results in errors.
+ This is because MAF duplicate finder only supports [actgACTG-Nn].
+"""
+rule clean_ambiguous:
+    input:
+         maf=lambda wildcards:
+         f"{config['alignments'][wildcards.alignment]['path']}{{part}}.maf.gz",
+         script=workflow.source_path(ALIGNMENT_P + 'clean_maf.py')
+    conda:
+         "../envs/mainpython.yml"
+    output:
+          temp("results/alignment/cleaned_maf/{alignment}/{part}.maf.gz")
+    shell:
+         "python3 {input.script} -i {input.maf} -o {output}"
+
+"""
+ Identifies the last common ancestor between two given species and marks it with an identifier.
+ Config input:
+    "ancestor", 	the ancestor of interest (example: Mouse_Rat)
+    "sp1_ab",		name of sp1 in the tree (for EPO abbreviated scientific name)
+    "sp2_ab", 		name of sp2 in the tree (the ancestor of sp1 and 2 will be selected)
+    "name_sp1", 	name/label of the species of interest (scientific name for EPO, e.g. mus_musculus)
+"""
+rule mark_ancestor:
+    input:
+         maf=lambda
+             wildcards: "results/alignment/cleaned_maf/{alignment}/{part}.maf.gz"
+         if config["alignments"][wildcards.alignment][
+                "clean_maf"] == "True" else
+         f"{config['alignments'][wildcards.alignment]['path']}{{part}}.maf.gz",
+         script=workflow.source_path(ALIGNMENT_P + 'marking_ancestor.py')
+    params:
+          ancestor=config['derive_ancestor']['name_ancestor'],
+          sp1_ab=config['derive_ancestor']['sp1_tree_ab'],
+          sp2_ab=config['derive_ancestor']['sp2_tree_ab'],
+          name_sp1=lambda wildcards: config['alignments'][wildcards.alignment][
+              'name_species_interest']
+    conda:
+         "../envs/mainpython.yml"
+    log:
+       "results/logs/{alignment}/{part}_marking_ancestor_log.txt"
+    output:
+          temp("results/alignment/marked_ancestor/{alignment}/{part}.maf.gz")
+    shell:
+         "python3 {input.script} -i {input.maf} -o {output}"
+         " -a {params.ancestor} -l {log} --sp1-label {params.name_sp1}"
+         " --sp1-ab {params.sp1_ab} --sp2-ab {params.sp2_ab}"
+
+
+def get_df_input_maf(alignment):
+    """
+    Input based on configuration. If ancestor must be marked that rule is input, if not and also no cleaning is needed,
+    the source maf file is taken as input instead. If cleaning is needed that rule is added instead.
+    Otherwise the input MAF file is required directly, skipping the other two steps and saving some time.
+    :param alignment: name of alignment in the config
+    :return: str, input file
+    """
+    if config["derive_ancestor"]["ancestral_alignment"] == alignment:
+        return "results/alignment/marked_ancestor/{alignment}/{part}.maf.gz"
+    if config["alignments"][alignment]["clean_maf"] == "True":
+        return "results/alignment/cleaned_maf/{alignment}/{part}.maf.gz"
+    return f"{config['alignments'][alignment]['path']}{{part}}.maf.gz"
+
+
+"""
+ Removes all  duplicate sequences and keeps only the one sequence that is the most similar to the block consensus.
+"""
+rule maf_df:
+    input:
+         lambda wildcards: get_df_input_maf(wildcards.alignment)
+    conda:
+         "../envs/maftools.yml"
+    threads: 2
+    output:
+          temp("results/alignment/dedup/{alignment}/{part}.maf.lz4")
+    shell:
+         "gzip -dc {input} | mafDuplicateFilter --maf /dev/stdin | lz4 -f stdin {output}"
+
+"""
+ Reorders species within any alignment block, so that the wanted species are in front.
+ (it also removes sequences that are not from species given in the order)
+"""
+rule maf_ro:
+    input:
+         "results/alignment/dedup/{alignment}/{part}.maf.lz4"
+    params:
+          order=lambda wildcards: config["alignments"][wildcards.alignment][
+              "filter_order"]
+    conda:
+         "../envs/maftools.yml"
+    threads: 2
+    output:
+          temp("results/alignment/row_ordered/{alignment}/{part}.maf.lz4")
+    shell:
+         "lz4 -dc {input} | mafRowOrderer --maf /dev/stdin"
+         " --order {params.order} | lz4 -f stdin {output}"
+
+def gather_part_files(alignment):
+    """
+     Helper function to gather alignment part files so they can be merged for each chromosome.
+     Input: str, config name of alignment to gather parts for.
+     Output: list of str, all part files for that prefix
+     Exits the program if no files are found since creating a rule with no inputs would break the workflow.
+
+     Amount of parts can be dynamic, so gather parts by looking how many are present.
+     We are looking at the original input files so we can build the DAG ahead of time,
+     otherwise checkpoints would be needed to reevaluate the DAG.
+     both emf and maf input files can be checked, based on the config.
+    """
+    alignment_config = config['alignments'][alignment]
+    input_pattern = f"{alignment_config['path']}{{part}}.{alignment_config['type']}"
+    parts = glob_wildcards(input_pattern).part
+
+    parts_filtered = []
+    for part in parts:
+        if not any(pattern in part for pattern in
+                   alignment_config["exclude_patterns"]):
+            parts_filtered.append(part)
+
+    # Formulate filenames as output from the previous step
+    infiles = expand(
+        f"results/alignment/row_ordered/{alignment}/{{part}}.maf.lz4",
+        part=parts_filtered)
+
+    # If no files were found fail because the rule cannot be ran
+    if len(infiles) == 0:
+        sys.exit(f"No alignment parts found in the form {input_pattern}")
+    return infiles
+
+
+"""
+ Go through all MAF alignment files and sort the blocks by the chromosome of the species of interest
+ lz4 compression is fast, 500Mb/s compression and multi-GB/s decompression for a single modern cpu core.
+"""
+rule blocks_by_chr:
+    input:
+         # common.smk helper function
+         maf=lambda wildcards: gather_part_files(wildcards.alignment),
+         script=workflow.source_path(ALIGNMENT_P + 'chr_sorting.py')
+    params:
+          species_name=lambda wildcards:
+          config["alignments"][wildcards.alignment]["name_species_interest"],
+          chrom_prefix=lambda wildcards:
+          config["alignments"][wildcards.alignment]["chrom_prefix"]
+    conda:
+         "../envs/mainpython.yml"
+    log:
+       "results/logs/{alignment}_merging.log"
+    output:
+          out_chr=expand("results/alignment/merged/{{alignment}}/"
+                         "chr{chr}.maf.lz4",
+                         chr=config["chromosomes"]["score"]),
+          out_other="results/alignment/merged/{alignment}/chrOther.maf.lz4"
+          # Currently not using the other blocks
+    shell:
+         "python3 {input.script} -l {log} -s {params.species_name}"
+         " -p {params.chrom_prefix}  -i {input.maf}"
+         " -o {output.out_chr} {output.out_other}"
+
+"""	
+ Flips all alignment blocks in which the species of interest and its ancestors have been on the negative strand. 
+"""
+rule maf_str:
+    input:
+         "results/alignment/merged/{alignment}/chr{chr}.maf.lz4"
+    params:
+          species_label=lambda wildcards:
+          config['alignments'][wildcards.alignment]['name_species_interest']
+    conda:
+         "../envs/maftools.yml"
+    threads: 2
+    output:
+          temp("results/alignment/stranded/{alignment}/chr{chr}.maf.lz4")
+    shell:
+         "lz4 -dc {input} | mafStrander --maf /dev/stdin"
+         " --seq {params.species_label}."
+         " --strand + | lz4 -f stdin {output}"
+
+"""
+ Sorts alignment blocks with respect to coordinates of the first species of interest using its genome.
+ Takes input as the fast .lz4 but saves as the more compressed gzip,
+ Since unlike previous files this one is not deleted upon completion.
+ since this final alignment is not marked as temporary.
+ If the file was defined to be presorted in the config we skip sorting for a speed benefit.
+"""
+rule maf_sorter:
+    input:
+         "results/alignment/stranded/{alignment}/chr{chr}.maf.lz4"
+    params:
+          species_label=lambda wildcards:
+          config['alignments'][wildcards.alignment]['name_species_interest'],
+          pre_sorted=lambda wildcards:
+          config['alignments'][wildcards.alignment]['pre_sorted']
+    conda:
+         "../envs/maftools.yml"
+    threads: 2
+    output:
+          "results/alignment/sorted/{alignment}/chr{chr}.maf.gz"
+    shell:
+         "if [ '{params.pre_sorted}' = 'True' ]; then "
+         "lz4 -dc {input} | gzip > {output};"
+         "else "
+         "lz4 -dc {input} | mafSorter --maf /dev/stdin --seq {params.species_label}."
+         " | gzip > {output}; fi"
+
+"""
+ If mafTools Strander fails to flip the sequences on the minus strand in the alignment blocks, 
+ rmOppositeStrand will remove alignment block with sequences that are still on the minus strand. 
+rule rmOppositeStrand:
+    input:
+         "output/finished_removing_unwanted_species.txt"
+    params:
+          script="scripts/rm_opposite_strand.py",
+          path_rmSP="output/dir_rmSP/"
+    output:
+          "output/finished_removing_opposite_strand.txt"
+    run:
+        shell("python {params.script} -i {params.path_rmSP}")
+        shell("mkdir output/dir_rmOppStr")
+        shell("mv rmOSrmSPmS_chr* output/dir_rmOppStr")
+"""
+
+"""
+ Reconstructs the marked ancestor sequences in the preprocessed maf files using the identifiers 
+ and outputs per chromosome a fasta file of the ancestral sequence. 
+"""
+rule gen_ancestor_seq:
+    input:
+         maf=f"results/alignment/sorted/{config['derive_ancestor']['ancestral_alignment']}/chr{{chr}}.maf.gz",
+         script=workflow.source_path(ALIGNMENT_P + 'gen_ancestor_seq.py')
+    params:
+          species_name=config["alignments"][
+              config['derive_ancestor']['ancestral_alignment']][
+              "name_species_interest"]
+    conda:
+         "../envs/mainpython.yml"
+    output:
+          "results/ancestral_seq/{ancestor}/chr{chr}.fa"
+    shell:
+         "python3 {input.script} -i {input.maf} -o {output}"
+         " -a {wildcards.ancestor} -n {params.species_name}"
+
+rule ancestor_stats:
+    input:
+         anc=expand("results/ancestral_seq/{{ancestor}}/chr{chr}.fa",
+                    chr=config["chromosomes"]["train"]),
+         ref=expand(config["generate_variants"]["reference_genome_wildcard"],
+                    chr=config["chromosomes"]["train"]),
+         script=workflow.source_path(ALIGNMENT_P + 'report_ancestral_coverage.py')
+    conda:
+         "../envs/mainpython.yml"
+    priority: 8
+    output:
+          stats=report("results/ancestral_seq/{ancestor}/stats.txt",
+                       category="Ancestral sequence"),
+          fraction="results/ancestral_seq/{ancestor}/coverage.txt"
+    shell:
+         """
+         python3 {input.script} \
+         -a {input.anc} \
+         -r {input.ref} \
+         -o {output.stats} \
+         -f {output.fraction}
+         """
+
+rule plot_ancestral_stats:
+    input:
+         stats="results/ancestral_seq/{ancestor}/stats.txt",
+         script=workflow.source_path(ALIGNMENT_P + 'plot_coverage.py')
+    conda:
+         "../envs/mainpython.yml"
+    output:
+         report("results/figures/{ancestor}_coverage.svg",
+                       category="Ancestral sequence"),
+    shell:
+         """
+         python3 {input.script} \
+         -i {input.stats} \
+         -o {output}
+         """
