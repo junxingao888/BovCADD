@@ -5,8 +5,8 @@
  Additionally, the model is used to score all variants,
  which are then used to generate the whole-genome CADD scores.
 
- :Author: Job van Schipstal
- :Date: 23-10-2023
+ :Author: Job van Schipstal, Junxin Gao
+ :Date: 23-10-2025
 
  Scripts are based upon the work of Christian Gross,
  but written for scikit-learn instead of turi create.
