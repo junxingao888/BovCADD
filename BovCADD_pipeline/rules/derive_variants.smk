@@ -3,8 +3,8 @@
  From the previously obtained ancestral sequence,
  the reference genome and the population vcf.
 
- :Author: Job van Schipstal
- :Date: 23-9-2023
+:Author: Job van Schipstal, Junxin Gao
+:Date: 23-10-2025
 
  Based upon the work of Seyan Hu and Julia Höglund.
 """
