@@ -2,8 +2,8 @@
  First part of the workflow, process the alignment (from Ensembl Compara or equivalent) into a useable format
  This module requires that the alignment that is to be processed is downloaded and placed in the resources folder.
 
- :Author: Job van Schipstal
- :Date: 8-9-2023
+:Author: Job van Schipstal, Junxin Gao
+:Date: 23-10-2025
 
  Based upon the work of Seyan Hu.
 """
