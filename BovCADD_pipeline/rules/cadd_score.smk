@@ -7,8 +7,8 @@
  chromosome and position. Finally, the scores for each position
  are summarised by a mean, min and max value per position.
 
- :Author: Job van Schipstal
- :Date: 19-06-2024
+ :Author: Job van Schipstal, Junxin Gao
+ :Date: 23-10-2025
 
  The scripts and workflow have been adopted from the work of Christian Gross.
 """
