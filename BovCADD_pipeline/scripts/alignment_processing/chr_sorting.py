@@ -17,7 +17,8 @@ chromosome output file.
 - Accepts gzipped or lz4 compressed input or output files.
 - Expects list of input and output files via argparse,
 instead of searching for files in a given folder.
-
+:Edited by: Junxin Gao :Date: 26-10-2025
+:Example: cattle species
 """
 # Import dependencies
 import gzip
