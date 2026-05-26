@@ -6,8 +6,8 @@
  Other annotations are taken as an external input in bedgraph(-like) format.
  These are not handled by this module.
 
- :Author: Job van Schipstal
- :Date: 23-9-2023
+ :Author: Job van Schipstal, Junxin Gao
+ :Date: 23-10-2025
 
  Based upon the work of Christian Groß.
 """
