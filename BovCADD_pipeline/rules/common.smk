@@ -3,8 +3,8 @@ CHROMS = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"
  Basic helper rules for the other parts of the workflow.
  Configuration loading helper functions are also found here.
 
- :Author: Job van Schipstal
- :Date: 21-9-2023
+:Author: Job van Schipstal, Junxin Gao
+:Date: 23-10-2025
 """
 
 """
