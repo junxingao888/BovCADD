@@ -3,8 +3,8 @@
  between the reference genome and the ancestral genome.
  An equal number of variants will be generated.
 
- :Author: Job van Schipstal
- :Date: 4-10-2023
+ :Author: Job van Schipstal, Junxin Gao
+ :Date: 23-10-2025
 
  Based upon the work of Seyan Hu.
 """
