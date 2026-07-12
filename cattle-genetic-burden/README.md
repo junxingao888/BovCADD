@@ -2,7 +2,7 @@
 
 A Linux/Python pipeline to estimate **genetic burden** in cattle populations
 using **BovCADD** deleteriousness scores, developed for the 1000 Bull Genomes
-(Run9) OPTIBOV ~4000 TAUIND dataset. Metrics are computed as **percentages of genotyped
+(Run9) & OPTIBOV ~4000 TAUIND dataset. Metrics are computed as **percentages of genotyped
 sites** to control for breed admixture (taurine × indicine ancestry), since
 raw variant counts are confounded by ancestry composition and site
 ascertainment differences across breeds.
