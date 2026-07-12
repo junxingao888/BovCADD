@@ -58,7 +58,7 @@ cattle-genetic-burden/ ├── README.md ├── environment.yml ├── c
 ## 4. Installation
 
 ```bash
-git clone https://github.com/<your-username>/cattle-genetic-burden.git
+git clone https://github.com/junxingao888/cattle-genetic-burden.git
 cd cattle-genetic-burden
 conda env create -f environment.yml
 conda activate cattle-burden
