@@ -1,1 +1,15 @@
-1
+name: cattle-burden
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - bcftools
+  - htslib
+  - python=3.10
+  - cyvcf2
+  - pandas
+  - numpy
+  - scipy
+  - matplotlib
+  - seaborn
+  - snakemake
