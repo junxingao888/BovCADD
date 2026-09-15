@@ -1,5 +1,5 @@
 
-# supplementary data
+# Supplementary data
 Supplemental Data S1. Predictive performance of individual annotations. Receiver operating characteristic (ROC) area under the curve (AUC) values for each genomic annotation used in BovCADD, calculated by evaluating the ability of each feature to discriminate derived from simulated variants. (XLSX)
 Supplemental Data S2. Correlation structure among genomic annotations. Pairwise correlation coefficients among the BovCADD annotations. (XLSX)
 Supplemental Data S3. Feature weights in the regularized logistic regression model. (XLSX)
