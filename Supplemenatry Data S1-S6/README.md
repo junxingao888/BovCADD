@@ -53,8 +53,7 @@ Training and analysis data derive from the 1000 Bull Genomes Project
 Run 9 (Hayes and Daetwyler 2019) and the LEAP-Agri OPTIBOV project
 (Ginja et al. 2025). Access to the underlying sequence data is
 governed by those consortia; sample identifiers are listed in
-Supplemental Data S6. Annotation sources are listed in Additional
-file 1: Table S1.
+Supplemental Data S6. 
 
 ---
 
